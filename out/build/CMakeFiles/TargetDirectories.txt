@@ -1,0 +1,3 @@
+/home/georgem/Documents/cpp/DocumentScanner/out/build/CMakeFiles/main.dir
+/home/georgem/Documents/cpp/DocumentScanner/out/build/CMakeFiles/edit_cache.dir
+/home/georgem/Documents/cpp/DocumentScanner/out/build/CMakeFiles/rebuild_cache.dir
