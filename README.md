@@ -17,6 +17,12 @@ cmake -S . -B out/build/
 cmake --build out/build/
 ```
 ### Run the application
+
 ```bash
 ./out/build/main
 ```
+#### Output
+![Alt text](img/DocScanner_running.png "a title")
+![Alt text](img/DocScanner_output.png "a title")
+
+
