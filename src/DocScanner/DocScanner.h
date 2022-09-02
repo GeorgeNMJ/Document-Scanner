@@ -10,9 +10,10 @@
 #include <vector>
 
 class DocScanner {
-  std::array<float, 2> docSize;
-  std::vector<cv::Point> docPoints;
-  cv::Mat document;
+private:
+  std::array<float, 2> m_DocSize;
+  std::vector<cv::Point> m_DocPoints;
+  cv::Mat m_Document;
 
 public:
   DocScanner(float width, float height);

@@ -4,8 +4,8 @@ using namespace cv;
 using namespace std;
 
 DocScanner::DocScanner(float width, float height) {
-  docSize[0] = width;
-  docSize[1] = height;
+  m_DocSize[0] = width;
+  m_DocSize[1] = height;
 }
 
 void DocScanner::scanImage(cv::Mat &img) {
@@ -21,7 +21,7 @@ void DocScanner::scanImage(cv::Mat &img) {
   reorderPoints();
 
   // warp image
-  warpImage(img, document);
+  warpImage(img, m_Document);
 }
 
 void DocScanner::preprocessImage(const Mat img, Mat &imgDil) {
@@ -60,8 +60,8 @@ void DocScanner::findDocument(const Mat img) {
       approxPolyDP(contours[i], conPoly[i], 0.02 * peri, true);
 
       if (area > maxArea && conPoly[i].size() == 4) {
-        docPoints = {conPoly[i][0], conPoly[i][1], conPoly[i][2],
-                     conPoly[i][3]};
+        m_DocPoints = {conPoly[i][0], conPoly[i][1], conPoly[i][2],
+                       conPoly[i][3]};
         maxArea = area;
       }
 
@@ -80,47 +80,47 @@ void DocScanner::drawPoints(Mat &img, const vector<Point> points,
 
 void DocScanner::reorderPoints() {
   vector<int> points_sum, points_dif;
-  for (auto point : docPoints) {
+  for (auto point : m_DocPoints) {
     points_sum.push_back(point.x + point.y);
     points_dif.push_back(point.x - point.y);
   }
 
   vector<Point> reordered_points = {
-      docPoints[std::min_element(points_sum.begin(), points_sum.end()) -
-                points_sum.begin()],
-      docPoints[std::max_element(points_dif.begin(), points_dif.end()) -
-                points_dif.begin()],
-      docPoints[std::min_element(points_dif.begin(), points_dif.end()) -
-                points_dif.begin()],
-      docPoints[std::max_element(points_sum.begin(), points_sum.end()) -
-                points_sum.begin()]};
+      m_DocPoints[std::min_element(points_sum.begin(), points_sum.end()) -
+                  points_sum.begin()],
+      m_DocPoints[std::max_element(points_dif.begin(), points_dif.end()) -
+                  points_dif.begin()],
+      m_DocPoints[std::min_element(points_dif.begin(), points_dif.end()) -
+                  points_dif.begin()],
+      m_DocPoints[std::max_element(points_sum.begin(), points_sum.end()) -
+                  points_sum.begin()]};
 
-  docPoints = reordered_points;
+  m_DocPoints = reordered_points;
 }
 
 void DocScanner::warpImage(const Mat img, Mat &imgWarp) {
   // Get corners of image to warp
-  Point2f src_corners[4] = {docPoints[0], docPoints[1], docPoints[2],
-                            docPoints[3]};
+  Point2f src_corners[4] = {m_DocPoints[0], m_DocPoints[1], m_DocPoints[2],
+                            m_DocPoints[3]};
 
   // The warp destination
   Point2f dst_corners[4] = {{0.0f, 0.0f},
-                            {docSize[0], 0.0f},
-                            {0.0f, docSize[1]},
-                            {docSize[0], docSize[1]}};
+                            {m_DocSize[0], 0.0f},
+                            {0.0f, m_DocSize[1]},
+                            {m_DocSize[0], m_DocSize[1]}};
 
   // Warp image
   Mat matrix = getPerspectiveTransform(src_corners, dst_corners);
-  warpPerspective(img, imgWarp, matrix, cv::Size(docSize[0], docSize[1]));
+  warpPerspective(img, imgWarp, matrix, cv::Size(m_DocSize[0], m_DocSize[1]));
 }
 
-Mat DocScanner::getDocument() { return document; }
-int DocScanner::getWidth() { return docSize[0]; }
-int DocScanner::getHeight() { return docSize[1]; }
-void DocScanner::setWidth(const int w) { docSize[0] = w; }
-void DocScanner::setHeight(const int h) { docSize[0] = h; }
+Mat DocScanner::getDocument() { return m_Document; }
+int DocScanner::getWidth() { return m_DocSize[0]; }
+int DocScanner::getHeight() { return m_DocSize[1]; }
+void DocScanner::setWidth(const int w) { m_DocSize[0] = w; }
+void DocScanner::setHeight(const int h) { m_DocSize[0] = h; }
 void DocScanner::setPoints(std::vector<cv::Point> newPoints) {
-  docPoints = newPoints;
+  m_DocPoints = newPoints;
 }
 
-vector<Point> DocScanner::getPoints() { return docPoints; };
+vector<Point> DocScanner::getPoints() { return m_DocPoints; };
