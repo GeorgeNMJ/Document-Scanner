@@ -22,7 +22,5 @@ cmake --build out/build/
 ./out/build/main
 ```
 #### Output
-![Alt text](img/DocScanner_running.png "a title")
-![Alt text](img/DocScanner_output.png "a title")
-
+![Two windows with a zoomed and warped image on the left and its raw image on the right](img/DocScanner_running.png "DocScanner Running")
 
