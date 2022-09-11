@@ -10,12 +10,12 @@ int main() {
   string path = "./img/giants.jpg";
   Mat img = imread(path);
 
-  scanner.scanImage(img);
+  scanner.Scan(img);
 
   // DocScanner::draw_points(img, scanner.getPoints(), Scalar(0, 0, 255));
 
   imshow("Image", img);
-  imshow("Image Warped", scanner.getDocument());
+  imshow("Image Warped", scanner.GetDocument());
   while (waitKey(0) != 113) {
   }
 }

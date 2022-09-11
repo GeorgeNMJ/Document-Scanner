@@ -17,14 +17,14 @@ private:
 
 public:
   DocScanner(float width, float height);
-  void scanImage(cv::Mat &img);
-  static void drawPoints(cv::Mat &img, const std::vector<cv::Point> points,
+  void Scan(cv::Mat &img);
+  static void DrawPoints(cv::Mat &img, const std::vector<cv::Point> points,
                          const cv::Scalar color);
-  void preprocessImage(const cv::Mat img, cv::Mat &imgDil);
-  void findDocument(const cv::Mat img);
-  void reorderPoints();
-  void warpImage(const cv::Mat img, cv::Mat &imgWarp);
-  cv::Mat getDocument();
+  void Preprocess(const cv::Mat img, cv::Mat &imgDil);
+  void FindDocument(const cv::Mat img);
+  void ReorderPoints();
+  void Warp(const cv::Mat img, cv::Mat &imgWarp);
+  cv::Mat GetDocument();
   void setWidth(const int w);
   void setHeight(const int h);
   int getWidth();
